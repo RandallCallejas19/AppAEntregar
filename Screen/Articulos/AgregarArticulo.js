@@ -8,11 +8,12 @@ import {
 } from "react-native";
 
 
-import {  doc, Firestore } from "firebase/firestore"
+import { doc, Firestore } from "firebase/firestore"
 
 
 import db from "../../database/firebase";
 import { setDoc } from "firebase/firestore/lite";
+import { writeUserData } from "../../methods/data.method";
 
 
 const AddArticle = (props) => {
@@ -29,22 +30,27 @@ const AddArticle = (props) => {
   };
 
   const saveNewUser = async () => {
-    if (state.name === "") {
-      alert("please provide a name");
-    } else {
+    try {
+      // if (state.name === "") {
+      //   alert("please provide a name");
+      // }
 
-      try {
-      // const add = await firestore.db.collection("users").doc("newuser").set({
-         await setDoc(doc(db, 'user', 'newuser'),{
-          name: state.name,
-          email: state.email,
-          phone: state.phone,
-        });
+      console.log(Firestore.db)
 
-       // props.navigation.navigate("UsersList");
-      } catch (error) {
-        console.log(error)
-      }
+      const { name, email, phone } = state
+
+      // const add = await Firestore.db.collection("users").doc("newuser").set({
+      // await setDoc(doc(db, 'user', 'newuser'), {
+      //   name: state.name,
+      //   email: state.email,
+      //   phone: state.phone,
+      // });
+
+      writeUserData({ name, email, phone })
+
+      // props.navigation.navigate("UsersList");
+    } catch (error) {
+      console.log(error)
     }
   };
 
@@ -201,15 +207,15 @@ const InsertarArticulos = () =>{
     } [])
     
     */
-  
- 
 
 
 
 
 
 
- 
+
+
+
 
 
 
